@@ -17,6 +17,7 @@ const schema = a.schema({
     .secondaryIndexes((index) => [
       index("allPartitionKey").sortKeys(["name"]), // この場合はnameをkeyにソートする。
       index("allPartitionKey").sortKeys(["description"]),
+      index("allPartitionKey").sortKeys(["name","description"]),
     ])
     .authorization((allow) => [allow.guest()]),
 });
