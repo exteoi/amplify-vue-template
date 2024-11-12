@@ -10,8 +10,15 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
+      name: a.string(),
+      description: a.string(),
+      allPartitionKey: a.string().default("1"),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .secondaryIndexes((index) => [
+      index("allPartitionKey").sortKeys(["name"]), // この場合はnameをkeyにソートする。
+      index("allPartitionKey").sortKeys(["description"]),
+    ])
+    .authorization((allow) => [allow.guest()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
